@@ -48,7 +48,7 @@ def cadasta_admin_list(context, data_dict):
             for user_id in user_ids]
 
 
-@validate(schema.cadasta_show_relationships)
+@validate(schema.cadasta_show_schema)
 def cadasta_show_relationship(context, data_dict):
     api_url = config.get('ckanext.cadasta.api_url', '')
     relationship_id = data_dict.get('id', '')
@@ -59,6 +59,24 @@ def cadasta_show_relationship(context, data_dict):
         auth_dict = data_dict
         auth_dict['parcel_id'] = str(result['features'][0]['properties']['parcel_id'])
         toolkit.check_access('cadasta_show_relationships', context, data_dict)
+        return result
+    except requests.exceptions.RequestException, e:
+        raise toolkit.ValidationError(e)
+    except ValueError:
+        raise toolkit.ValidationError('Failed to decode json from response')
+    except (KeyError, IndexError), e:
+        raise toolkit.ValidationError('No parcel_id in response', result)
+
+
+@validate(schema.cadasta_show_schema)
+def cadasta_show_parcel(context, data_dict):
+    api_url = config.get('ckanext.cadasta.api_url', '')
+    parcel_id = data_dict.get('id',  '')
+    endpoint = 'parcels/{0}'.format(parcel_id)
+    try:
+        r = requests.get(urlparse.urljoin(api_url, endpoint), params=data_dict)
+        result = r.json()
+        toolkit.check_access('cadasta_show_parcel', context, data_dict)
         return result
     except requests.exceptions.RequestException, e:
         raise toolkit.ValidationError(e)

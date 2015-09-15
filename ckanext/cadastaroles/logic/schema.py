@@ -14,7 +14,7 @@ def cadasta_admin_schema():
     }
 
 
-def cadasta_show_relationships():
+def cadasta_show_schema():
     return {
         'id': [not_missing, unicode],
         'fields': [ignore_missing, unicode],

@@ -19,6 +19,7 @@ class CadastarolesPlugin(plugins.SingletonPlugin):
             'cadasta_admin_delete': action.cadasta_admin_delete,
             'cadasta_admin_list': action.cadasta_admin_list,
             'cadasta_show_relationship': action.cadasta_show_relationship,
+            'cadasta_show_parcel': action.cadasta_show_parcel,
         }
 
     # IAuthFunctions

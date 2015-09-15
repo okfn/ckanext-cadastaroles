@@ -46,3 +46,18 @@ def cadasta_show_relationships(context, data_dict):
         if can_read_relationships:
             return {'success': True}
     return {'success': False}
+
+
+def cadasta_show_parcel(context, data_dict):
+    user = context.get('user')
+    package = logic.auth.get_package_object(context, {'id': data_dict['id']})
+
+    if package.owner_org:
+        can_read_relationships = authz.has_user_permission_for_group_or_org(
+            package.owner_org,
+            user,
+            'read'
+        )
+        if can_read_relationships:
+            return {'success': True}
+    return {'success': False}
