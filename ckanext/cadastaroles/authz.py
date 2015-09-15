@@ -40,6 +40,9 @@ authz.ROLE_PERMISSIONS = OrderedDict([
                          'manage_group'
                          ]),
     ('community_user', ['read',
+                        'create_dataset',
+                        'update_dataset',
+                        #'only_create_resources',
                         # cadasta resources
                         'read_cadasta_resource',
                         'create_cadasta_resource',

@@ -4,6 +4,12 @@ from ckan.plugins import toolkit
 from ckanext.cadastaroles.logic import schema
 from ckanext.cadastaroles.model import CadastaAdmin
 
+import json
+import urlparse
+
+from pylons import config
+import requests
+
 
 @validate(schema.cadasta_admin_schema)
 def cadasta_admin_create(context, data_dict):
@@ -40,3 +46,23 @@ def cadasta_admin_list(context, data_dict):
     user_ids = CadastaAdmin.get_cadasta_admin_ids(session)
     return [toolkit.get_action('user_show')(data_dict={'id': user_id})
             for user_id in user_ids]
+
+
+@validate(schema.cadasta_show_relationships)
+def cadasta_show_relationship(context, data_dict):
+    api_url = config.get('ckanext.cadasta.api_url', '')
+    relationship_id = data_dict.get('id', '')
+    endpoint = 'show_relationships/{0}'.format(relationship_id)
+    try:
+        r = requests.get(urlparse.urljoin(api_url, endpoint), params=data_dict)
+        result = r.json()
+        auth_dict = data_dict
+        auth_dict['parcel_id'] = str(result['features'][0]['properties']['parcel_id'])
+        toolkit.check_access('cadasta_show_relationships', context, data_dict)
+        return result
+    except requests.exceptions.RequestException, e:
+        raise toolkit.ValidationError(e)
+    except ValueError:
+        raise toolkit.ValidationError('Failed to decode json from response')
+    except (KeyError, IndexError), e:
+        raise toolkit.ValidationError('No parcel_id in response', result)
