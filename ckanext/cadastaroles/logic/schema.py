@@ -22,4 +22,23 @@ def cadasta_show_schema():
         'sort_dir': [ignore_missing, unicode],
         'limit': [ignore_missing, int_validator],
         'returnGeometry': [ignore_missing, boolean_validator],
+        'project_id': [ignore_missing, int_validator],
+    }
+
+
+def cadasta_show_relationship_schema():
+    return {
+        'fields': [ignore_missing, unicode],
+        'sort_by': [ignore_missing, unicode],
+        'sort_dir': [ignore_missing, unicode],
+        'limit': [ignore_missing, int_validator],
+        'returnGeometry': [ignore_missing, boolean_validator],
+    }
+
+
+def cadasta_project_schema():
+    return {
+        'cadasta_organization_id': [not_missing, int_validator],
+        'ckan_id': [not_missing, unicode],
+        'ckan_title': [not_missing, unicode]
     }
