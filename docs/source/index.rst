@@ -32,6 +32,9 @@ The standard CKAN permissions have been expanded
 * update_relationship
 * delete_relationship
 
+These permissions are checked by the ckan authorization functions, see
+**Action functions and authorization functions** in the ckan documentation
+http://docs.ckan.org/en/latest/extensions/tutorial.html#implementing-the-iauthfunctions-plugin-interface
 
 Extended Roles
 --------------
@@ -39,7 +42,7 @@ The standard CKAN roles have been extended to make use of the extended
 permissions. The roles below all correspond to users inside and organization
 
 ======================= ========= ============== =============== =====
-                        surveryor community user community admin admin
+Permission              Surveryor Community User Community Admin Admin
 ======================= ========= ============== =============== =====
 read (dataset)          yes       yes            yes             yes
 delete_dataset          no        no             yes             yes          
