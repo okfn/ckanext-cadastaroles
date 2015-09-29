@@ -11,6 +11,7 @@ class CadastarolesPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IRoutes, inherit=True)
+    plugins.implements(plugins.IPackageController, inherit=True)
 
     # IActions
     def get_actions(self):
@@ -50,3 +51,16 @@ class CadastarolesPlugin(plugins.SingletonPlugin):
                       '/ckan-admin/cadasta_admin_remove',
                       action='remove')
         return map
+
+    # IPackageController
+    def after_update(self, context, pkg_dict):
+        org = toolkit.get_action('organization_show')(
+            data_dict={'id': pkg_dict['owner_org']})
+
+        toolkit.get_action('cadatast_create_project')(
+            data_dict={
+                'ckan_id': pkg_dict['id'],
+                'ckan_title': pkg_dict['id'],
+                'cadasta_organization_id': org['id']
+            }
+        )
