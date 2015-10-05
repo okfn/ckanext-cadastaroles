@@ -12,6 +12,7 @@ from .cadastaorganization import (
 from .parcel import (
     cadasta_show_parcel,
     cadasta_show_parcel_detail,
+    cadasta_show_parcel_relationship_history,
 )
 
 from .project import (
@@ -21,4 +22,3 @@ from .project import (
 from .relationships import (
     cadasta_show_relationship,
 )
-
