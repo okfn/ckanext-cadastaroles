@@ -15,14 +15,17 @@ class CadastarolesPlugin(plugins.SingletonPlugin):
 
     # IActions
     def get_actions(self):
-        return {
-            'cadasta_admin_create': action.cadasta_admin_create,
-            'cadasta_admin_delete': action.cadasta_admin_delete,
-            'cadasta_admin_list': action.cadasta_admin_list,
-            'cadasta_show_relationship': action.cadasta_show_relationship,
-            'cadasta_show_parcel': action.cadasta_show_parcel,
-            'cadasta_create_project': action.cadasta_create_project,
-        }
+        return dict((name, function) for name, function
+                    in action.__dict__.items()
+                    if callable(function))
+        #return {
+        #    'cadasta_admin_create': action.cadasta_admin_create,
+        #    'cadasta_admin_delete': action.cadasta_admin_delete,
+        #    'cadasta_admin_list': action.cadasta_admin_list,
+        #    'cadasta_show_relationship': action.cadasta_show_relationship,
+        #    'cadasta_show_parcel': action.cadasta_show_parcel,
+        #    'cadasta_create_project': action.cadasta_create_project,
+        #}
 
     # IAuthFunctions
     def get_auth_functions(self):

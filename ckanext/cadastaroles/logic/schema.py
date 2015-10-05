@@ -26,6 +26,17 @@ def cadasta_show_schema():
     }
 
 
+def cadasta_show_parcels_schema():
+    return {
+        'fields': [ignore_missing, unicode],
+        'sort_by': [ignore_missing, unicode],
+        'sort_dir': [ignore_missing, unicode],
+        'limit': [ignore_missing, int_validator],
+        'returnGeometry': [ignore_missing, boolean_validator],
+        'project_id': [ignore_missing, int_validator],
+    }
+
+
 def cadasta_show_relationship_schema():
     return {
         'fields': [ignore_missing, unicode],
@@ -41,4 +52,12 @@ def cadasta_project_schema():
         'cadasta_organization_id': [not_missing, int_validator],
         'ckan_id': [not_missing, unicode],
         'ckan_title': [not_missing, unicode]
+    }
+
+
+def cadasta_create_organization_schema():
+    return {
+        'ckan_id': [not_missing, unicode],
+        'ckan_title': [not_missing, unicode],
+        'ckan_description': [not_missing, unicode],
     }
