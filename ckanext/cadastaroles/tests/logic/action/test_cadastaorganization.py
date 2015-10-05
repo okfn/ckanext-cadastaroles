@@ -26,20 +26,6 @@ class TestCadastaCreateOrganization(object):
 
         assert_equal({u'cadasta_organization_id': 1}, result)
 
-    def test_create_as_anonymous_user(self):
-        organization = factories.Organization(id='1')
-
-        context = {'user': None, 'ignore_auth': False}
-        assert_raises(
-            toolkit.NotAuthorized,
-            helpers.call_action,
-            'cadasta_create_organization',
-            context=context,
-            ckan_id=organization['id'],
-            ckan_title=organization['title'],
-            ckan_description=organization['description'],
-        )
-
 
 class TestCadastaGetOrganization(object):
     def teardown(self):

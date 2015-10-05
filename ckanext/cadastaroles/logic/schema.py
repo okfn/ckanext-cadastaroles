@@ -26,8 +26,9 @@ def cadasta_show_schema():
     }
 
 
-def cadasta_show_parcels_schema():
+def cadasta_get_parcels_schema():
     return {
+        'id': [ignore_missing, unicode],
         'fields': [ignore_missing, unicode],
         'sort_by': [ignore_missing, unicode],
         'sort_dir': [ignore_missing, unicode],
