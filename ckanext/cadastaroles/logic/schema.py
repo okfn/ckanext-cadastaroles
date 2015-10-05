@@ -61,3 +61,13 @@ def cadasta_create_organization_schema():
         'ckan_title': [not_missing, unicode],
         'ckan_description': [not_missing, unicode],
     }
+
+
+def cadasta_get_organization_schema():
+    return {
+        'id': [ignore_missing, unicode],
+        'sort_by': [ignore_missing, unicode],
+        'sort_dir': [ignore_missing, unicode],
+        'limit': [ignore_missing, int_validator],
+        'returnGeometry': [ignore_missing, boolean_validator],
+    }

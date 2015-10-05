@@ -6,4 +6,5 @@ from .cadastaadmin import (
 
 from .cadastaorganization import (
     cadasta_create_organization,
+    cadasta_get_organization,
 )
