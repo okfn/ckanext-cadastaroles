@@ -145,7 +145,12 @@ def cadasta_create_project(context, data_dict):
 
 
 def cadasta_api(endpoint, method='GET', *args, **kwargs):
-    api_url = config.get('ckanext.cadasta.api_url', '')
+    try:
+        api_url = config['ckanext.cadasta.api_url']
+    except KeyError:
+        raise toolkit.ValidationError(
+            toolkit._('ckanext.cadasta.api_url has not been set')
+        )
     url = endpoint.format(*args)
 
     try:
