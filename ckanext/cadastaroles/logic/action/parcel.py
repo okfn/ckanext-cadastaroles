@@ -20,7 +20,7 @@ def cadasta_show_parcel(context, data_dict):
     :param sort_by: Options: id, spatial_source, user_id, time_created,
     :type sort_by: str
     :param sort_dir: optional (ASC or DESC)
-    :type fields: str
+    :type sort_dir: str
     :param limit: number of records to return
     :type limit: int
     :param returnGeometry: whether to return geometry (optional,
@@ -45,7 +45,7 @@ def cadasta_show_parcel(context, data_dict):
 def cadasta_show_parcel_detail(context, data_dict):
     '''Make api call to cadasta api parcel show detail
 
-    :param id: the id of the parcel (optional)
+    :param id: the id of the parcel
     :type id: str
 
     :rtype: dict
@@ -60,7 +60,7 @@ def cadasta_show_parcel_detail(context, data_dict):
 def cadasta_show_parcel_relationship_history(context, data_dict):
     '''Make api call to cadasta api parcel show relationship history
 
-    :param id: the id of the parcel (optional)
+    :param id: the id of the parcel
     :type id: str
     :param fields: Options: id, spatial_source, user_id, time_created,
         time_updated
@@ -68,7 +68,7 @@ def cadasta_show_parcel_relationship_history(context, data_dict):
     :param sort_by: Options: id, spatial_source, user_id, time_created,
     :type sort_by: str
     :param sort_dir: optional (ASC or DESC)
-    :type fields: str
+    :type sort_dir: str
     :param limit: number of records to return
     :type limit: int
 
@@ -85,7 +85,7 @@ def cadasta_show_parcel_relationship_history(context, data_dict):
 def cadasta_show_parcel_resource(context, data_dict):
     '''Make api call to cadasta api parcel show relationship history
 
-    :param id: the id of the parcel (optional)
+    :param id: the id of the parcel
     :type id: str
     :param fields: Options: id, spatial_source, user_id, time_created,
         time_updated
@@ -93,7 +93,7 @@ def cadasta_show_parcel_resource(context, data_dict):
     :param sort_by: Options: id, spatial_source, user_id, time_created,
     :type sort_by: str
     :param sort_dir: optional (ASC or DESC)
-    :type fields: str
+    :type sort_dir: str
     :param limit: number of records to return
     :type limit: int
 

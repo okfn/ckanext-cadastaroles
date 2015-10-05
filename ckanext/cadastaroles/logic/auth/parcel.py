@@ -1,7 +1,7 @@
 from ckan import authz, logic
 
 
-def cadasta_get_parcels(context, data_dict):
+def cadasta_show_parcel(context, data_dict):
     return {'success': True}
     # user = context.get('user')
 
