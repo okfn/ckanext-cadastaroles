@@ -17,10 +17,9 @@ authz.ROLE_PERMISSIONS = OrderedDict([
                          'create_dataset',
                          'update_dataset',
                          # cadasta resources
-                         'read_cadasta_resource',
-                         'create_cadasta_resource',
-                         'update_cadasta_resource',
-                         'delete_cadasta_resource',
+                         'upload_project_resource',
+                         'delete_project_resource',
+                         'archive_project_resource',
                          # surveys
                          'read_survey',
                          'create_survey',
@@ -31,18 +30,28 @@ authz.ROLE_PERMISSIONS = OrderedDict([
                          'create_parcel',
                          'update_parcel',
                          'delete_parcel',
+                         # parcel resources
+                         'upload_parcel_resource',
+                         'delete_parcel_resource',
+                         'archive_parcel_resource',
+                         # party
+                         'read_party',
+                         'create_party',
+                         'update_party',
+                         'delete_party',
+                         # party resources
+                         'upload_party_resource',
+                         'delete_party_resource',
+                         'archive_party_resource',
                          # relationship
                          'read_relationship',
                          'create_relationship',
                          'update_relationship',
                          'delete_relationship',
-                         # group membership
-                         'manage_group'
                          ]),
     ('community_user', ['read',
                         'create_dataset',
                         'update_dataset',
-                        #'only_create_resources',
                         # cadasta resources
                         'read_cadasta_resource',
                         'create_cadasta_resource',
@@ -57,20 +66,31 @@ authz.ROLE_PERMISSIONS = OrderedDict([
                         ]),
     ('surveyor', ['read',
 
+                  # project resource
+                  'upload_project_resource',
+
                   'read_survey',
                   'create_survey',
                   'update_survey',
                   'delete_survey',
 
+                  # parcel
                   'read_parcel',
-                  'create_parcel',
-                  'update_parcel',
-                  'delete_parcel',
+                  # parcel resource
+                  'upload_parcel_resource',
+                  'delete_parcel_resource',
+
+                  # party
+                  'read_party',
+                  # parcel resource
+                  'read_party_resource',
+                  'read_party_resource',
 
                   'read_relationship',
                   'create_relationship',
                   'update_relationship',
                   'delete_relationship',
+
                   ]),
 ])
 
