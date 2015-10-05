@@ -393,3 +393,75 @@ class TestRelationshipHistory(object):
             sort_dir="test",
             limit=10,
         )
+
+
+class TestShowParcelResource(object):
+    def teardown(self):
+        helpers.reset_db()
+        search.clear_all()
+
+    @responses.activate
+    def test_get_parcel_resource(self):
+        body = ''' {
+        "type": "FeatureCollection",
+        "features": [
+        {
+        "type": "Feature",
+        "geometry": null,
+        "properties": {
+        "parcel_id": 1,
+        "resource_id": 32,
+        "type": null,
+        "url": "http://www.cadasta.org/32/parcel",
+        "description": null,
+        "active": true,
+        "sys_delete": false,
+        "time_created": "2015-09-09T14:57:34.398855-07:00",
+        "time_updated": "2015-09-09T14:57:34.398855-07:00",
+        "created_by": null,
+        "updated_by": null,
+        "project_id": 1
+        } } ] }
+        '''
+        responses.add(responses.GET, 'http://cadasta.api/parcels/1/resources',
+                      body=body,
+                      content_type="application/json")
+
+        result = helpers.call_action(
+            'cadasta_show_parcel_resource',
+            id=1,
+            sort_by='test'
+        )
+
+        expected = {
+            u'features': [{
+                u'geometry': None,
+                u'properties': {
+                    u'active': True,
+                    u'created_by': None,
+                    u'description': None,
+                    u'parcel_id': 1,
+                    u'project_id': 1,
+                    u'resource_id': 32,
+                    u'sys_delete': False,
+                    u'time_created': u'2015-09-09T14:57:34.398855-07:00',
+                    u'time_updated': u'2015-09-09T14:57:34.398855-07:00',
+                    u'type': None,
+                    u'updated_by': None,
+                    u'url': u'http://www.cadasta.org/32/parcel'},
+                u'type': u'Feature'}],
+            u'type': u'FeatureCollection'}
+        assert_equal(expected, result)
+
+    def test_no_id_raises_validation_error(self):
+        assert_raises(
+            toolkit.ValidationError,
+
+            helpers.call_action,
+            'cadasta_show_parcel_resource',
+            fields="test",
+            sort_by="test",
+            sort_dir="test",
+            limit=10,
+        )
+

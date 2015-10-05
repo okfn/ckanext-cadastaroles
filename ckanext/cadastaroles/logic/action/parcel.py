@@ -33,6 +33,7 @@ def cadasta_show_parcel(context, data_dict):
     '''
     parcel_id = data_dict.get('id')
     if parcel_id:
+        data_dict.pop('id', '')
         result = cadasta_api('parcels/{0}'.format(parcel_id), **data_dict)
     else:
         result = cadasta_api('parcels', **data_dict)
@@ -51,6 +52,7 @@ def cadasta_show_parcel_detail(context, data_dict):
     '''
     parcel_id = data_dict.get('id')
     toolkit.check_access('cadasta_show_parcel', context, data_dict)
+    data_dict.pop('id', '')
     return cadasta_api('parcels/{0}/details'.format(parcel_id), **data_dict)
 
 
@@ -74,5 +76,31 @@ def cadasta_show_parcel_relationship_history(context, data_dict):
     '''
     parcel_id = data_dict.get('id')
     toolkit.check_access('cadasta_show_parcel', context, data_dict)
+    data_dict.pop('id', '')
     return cadasta_api(
         'parcels/{0}/show_relationship_history'.format(parcel_id), **data_dict)
+
+
+@validate(schema.cadasta_get_parcel_resource_schema)
+def cadasta_show_parcel_resource(context, data_dict):
+    '''Make api call to cadasta api parcel show relationship history
+
+    :param id: the id of the parcel (optional)
+    :type id: str
+    :param fields: Options: id, spatial_source, user_id, time_created,
+        time_updated
+    :type fields: str
+    :param sort_by: Options: id, spatial_source, user_id, time_created,
+    :type sort_by: str
+    :param sort_dir: optional (ASC or DESC)
+    :type fields: str
+    :param limit: number of records to return
+    :type limit: int
+
+    :rtype: dict
+    '''
+    parcel_id = data_dict['id']
+    toolkit.check_access('cadasta_show_parcel', context, data_dict)
+    data_dict.pop('id', '')
+    return cadasta_api(
+        'parcels/{0}/resources'.format(parcel_id), **data_dict)

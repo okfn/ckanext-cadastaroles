@@ -54,6 +54,16 @@ def cadasta_get_parcel_relationship_history_schema():
     }
 
 
+def cadasta_get_parcel_resource_schema():
+    return {
+        'id': [not_missing, unicode],
+        'fields': [ignore_missing, unicode],
+        'sort_by': [ignore_missing, unicode],
+        'sort_dir': [ignore_missing, unicode],
+        'limit': [ignore_missing, int_validator],
+    }
+
+
 def cadasta_show_relationship_schema():
     return {
         'fields': [ignore_missing, unicode],
