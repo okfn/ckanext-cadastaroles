@@ -38,6 +38,12 @@ def cadasta_get_parcels_schema():
     }
 
 
+def cadasta_get_parcel_detail_schema():
+    return {
+        'id': [not_missing, unicode],
+    }
+
+
 def cadasta_show_relationship_schema():
     return {
         'fields': [ignore_missing, unicode],

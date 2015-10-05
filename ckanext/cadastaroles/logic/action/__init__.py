@@ -11,6 +11,7 @@ from .cadastaorganization import (
 
 from .parcel import (
     cadasta_show_parcel,
+    cadasta_show_parcel_detail,
 )
 
 from .project import (
