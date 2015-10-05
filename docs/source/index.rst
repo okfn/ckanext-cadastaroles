@@ -83,7 +83,15 @@ The action functions added by ckanext-cadastaroles are an extension of the
 CKAN API, for details on api example api usage, see
 http://docs.ckan.org/en/latest/api/index.html
 
-.. automodule:: ckanext.cadastaroles.logic.action
+.. automodule:: ckanext.cadastaroles.logic.action.cadastaadmin
+   :members:
+.. automodule:: ckanext.cadastaroles.logic.action.cadastaorganization
+   :members:
+.. automodule:: ckanext.cadastaroles.logic.action.parcel
+   :members:
+.. automodule:: ckanext.cadastaroles.logic.action.project
+   :members:
+.. automodule:: ckanext.cadastaroles.logic.action.relationships
    :members:
 
 Indices and tables
