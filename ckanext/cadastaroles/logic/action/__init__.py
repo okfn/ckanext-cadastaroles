@@ -10,7 +10,7 @@ from .cadastaorganization import (
 )
 
 from .parcel import (
-    cadasta_get_parcels,
+    cadasta_show_parcel,
 )
 
 from .project import (

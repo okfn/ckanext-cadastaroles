@@ -6,7 +6,7 @@ from ckanext.cadastaroles.logic.action.util import cadasta_api
 
 
 @validate(schema.cadasta_get_parcels_schema)
-def cadasta_get_parcels(context, data_dict):
+def cadasta_show_parcel(context, data_dict):
     '''Make api call to cadasta api show get
 
     if parcel id is not provided, then if you are a sysadmin all parcels are

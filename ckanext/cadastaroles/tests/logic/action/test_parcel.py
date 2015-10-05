@@ -57,7 +57,7 @@ class TestCadastaGetParcel(object):
                       content_type="application/json")
 
         result = helpers.call_action(
-            'cadasta_get_parcels',
+            'cadasta_show_parcel',
             id=1,
             project_id=1,
         )
@@ -140,7 +140,7 @@ class TestCadastaGetParcel(object):
                       content_type="application/json")
 
         result = helpers.call_action(
-            'cadasta_get_parcels',
+            'cadasta_show_parcel',
         )
 
         assert_equal({
