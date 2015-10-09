@@ -21,7 +21,7 @@ def cadasta_create_organization(context, data_dict):
     :rtype: dict
     '''
     toolkit.check_access('sysadmin', context, data_dict)
-    return cadasta_api('organizations', 'POST', data_dict)
+    return cadasta_api('organizations', 'POST', **data_dict)
 
 
 @validate(schema.cadasta_get_organization_schema)
@@ -49,6 +49,6 @@ def cadasta_get_organization(context, data_dict):
     organization_id = data_dict.get('id')
     if organization_id:
         return cadasta_api('organizations/{0}'.format(organization_id),
-                           'GET', data_dict)
+                           'GET', **data_dict)
     else:
-        return cadasta_api('organizations', 'GET', data_dict)
+        return cadasta_api('organizations', 'GET', **data_dict)
