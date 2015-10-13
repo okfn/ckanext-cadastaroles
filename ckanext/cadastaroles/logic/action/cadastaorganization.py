@@ -24,6 +24,7 @@ def cadasta_create_organization(context, data_dict):
     return cadasta_api('organizations', 'POST', **data_dict)
 
 
+@toolkit.side_effect_free
 @validate(schema.cadasta_get_organization_schema)
 def cadasta_get_organization(context, data_dict):
     '''Make api call to cadasta api show relationship
