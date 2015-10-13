@@ -10,6 +10,7 @@ get_api_map = {
     'cadasta_get_project_overview': '/projects/{id}/overview',
     'cadasta_get_activity': '/show_activity',
     'cadasta_get_resources': '/resources',
+    'cadasta_get_parcels_list': '/projects/{id}/parcels_list',
 }
 
 
