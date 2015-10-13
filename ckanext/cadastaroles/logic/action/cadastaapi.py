@@ -32,8 +32,14 @@ def make_get_cadasta_action(action_name):
         used_args = [a[1] for a in string.Formatter().parse(action) if a[1]]
 
         cadasta_dict = data_dict.copy()
+
+        error_dict = {}
         for arg in used_args:
-            cadasta_dict.pop(arg)
+            if arg not in data_dict.keys():
+                error_dict[arg] = ['missing value']
+            cadasta_dict.pop(arg, None)
+        if error_dict:
+            raise toolkit.ValidationError(error_dict)
 
         endpoint = action.format(**data_dict)
 
