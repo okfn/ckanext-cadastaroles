@@ -5,6 +5,7 @@ from ckanext.cadastaroles.logic import schema
 from ckanext.cadastaroles.logic.action.util import cadasta_api
 
 
+@toolkit.side_effect_free
 @validate(schema.cadasta_get_parcels_schema)
 def cadasta_show_parcel(context, data_dict):
     '''Make api call to cadasta api show get
@@ -41,6 +42,7 @@ def cadasta_show_parcel(context, data_dict):
     return result
 
 
+@toolkit.side_effect_free
 @validate(schema.cadasta_get_parcel_detail_schema)
 def cadasta_show_parcel_detail(context, data_dict):
     '''Make api call to cadasta api parcel show detail
@@ -56,6 +58,7 @@ def cadasta_show_parcel_detail(context, data_dict):
     return cadasta_api('parcels/{0}/details'.format(parcel_id), **data_dict)
 
 
+@toolkit.side_effect_free
 @validate(schema.cadasta_get_parcel_relationship_history_schema)
 def cadasta_show_parcel_relationship_history(context, data_dict):
     '''Make api call to cadasta api parcel show relationship history
@@ -81,6 +84,7 @@ def cadasta_show_parcel_relationship_history(context, data_dict):
         'parcels/{0}/show_relationship_history'.format(parcel_id), **data_dict)
 
 
+@toolkit.side_effect_free
 @validate(schema.cadasta_get_parcel_resource_schema)
 def cadasta_show_parcel_resource(context, data_dict):
     '''Make api call to cadasta api parcel show relationship history
