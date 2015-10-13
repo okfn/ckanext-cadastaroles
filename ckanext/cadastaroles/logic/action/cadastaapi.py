@@ -15,6 +15,8 @@ get_api_map = {
 
     'cadasta_get_project_parcel_detail':
         '/projects/{id}/parcels/{parcel_id}/details',
+    'cadasta_get_project_parcel_history':
+        'projects/{id}/parcels/{parcel_id}/history'
 }
 
 
