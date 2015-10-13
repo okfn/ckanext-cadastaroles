@@ -9,6 +9,7 @@ from pylons import config
 get_api_map = {
     'cadasta_get_project_overview': '/projects/{id}/overview',
     'cadasta_get_activity': '/show_activity',
+    'cadasta_get_resources': '/resources',
 }
 
 
