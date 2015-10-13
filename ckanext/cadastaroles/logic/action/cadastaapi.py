@@ -12,11 +12,12 @@ get_api_map = {
     'cadasta_get_resources': '/resources',
     'cadasta_get_parcels_list': '/projects/{id}/parcels_list',
     'cadasta_get_project_parcel': '/projects/{id}/parcels/{parcel_id}',
-
     'cadasta_get_project_parcel_detail':
         '/projects/{id}/parcels/{parcel_id}/details',
     'cadasta_get_project_parcel_history':
-        'projects/{id}/parcels/{parcel_id}/history'
+        'projects/{id}/parcels/{parcel_id}/history',
+    'cadasta_get_project_parcel_relationship_history':
+        '/projects/{id}/parcels/{parcel_id}/show_relationship_history',
 }
 
 
