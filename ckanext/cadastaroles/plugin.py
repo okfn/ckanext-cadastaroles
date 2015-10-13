@@ -3,6 +3,7 @@ from ckan.config.routing import SubMapper
 from ckan.plugins import toolkit
 from ckanext.cadastaroles.logic import action, auth
 from ckanext.cadastaroles import model
+from ckanext.cadastaroles.logic.action.cadastaapi import get_actions
 
 
 class CadastarolesPlugin(plugins.SingletonPlugin):
@@ -15,17 +16,11 @@ class CadastarolesPlugin(plugins.SingletonPlugin):
 
     # IActions
     def get_actions(self):
-        return dict((name, function) for name, function
+        actions = dict((name, function) for name, function
                     in action.__dict__.items()
                     if callable(function))
-        #return {
-        #    'cadasta_admin_create': action.cadasta_admin_create,
-        #    'cadasta_admin_delete': action.cadasta_admin_delete,
-        #    'cadasta_admin_list': action.cadasta_admin_list,
-        #    'cadasta_show_relationship': action.cadasta_show_relationship,
-        #    'cadasta_show_parcel': action.cadasta_show_parcel,
-        #    'cadasta_create_project': action.cadasta_create_project,
-        #}
+        actions.update(get_actions())
+        return actions
 
     # IAuthFunctions
     def get_auth_functions(self):
@@ -54,16 +49,3 @@ class CadastarolesPlugin(plugins.SingletonPlugin):
                       '/ckan-admin/cadasta_admin_remove',
                       action='remove')
         return map
-
-    # IPackageController
-    def after_update(self, context, pkg_dict):
-        org = toolkit.get_action('organization_show')(
-            data_dict={'id': pkg_dict['owner_org']})
-
-        toolkit.get_action('cadatast_create_project')(
-            data_dict={
-                'ckan_id': pkg_dict['id'],
-                'ckan_title': pkg_dict['id'],
-                'cadasta_organization_id': org['id']
-            }
-        )
