@@ -27,10 +27,3 @@ class TestGetActivity(object):
             'cadasta_get_activity',
         )
         assert_equal(self.expected, result)
-
-    def test_get_activity(self):
-
-        result = helpers.call_action(
-            'cadasta_get_activity',
-        )
-        assert_equal(self.expected, result)
