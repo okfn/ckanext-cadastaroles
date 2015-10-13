@@ -22,6 +22,7 @@ class TestGetApi(object):
     @responses.activate
     def test_all_get_actions_success(self):
         for action, api_url in get_api_map.items():
+            print 'testing {action}'.format(action=action),
             # read our expected json output as <action_name>.json
             filepath = os.path.join(self.data_dir, '.'.join([action, 'json']))
             body = open(filepath).read()
@@ -42,10 +43,12 @@ class TestGetApi(object):
             # call our action with the same arguments passed
             result = helpers.call_action(action, **url_args)
             assert_equal(expected, result)
+            print '\t[OK]'
 
     @responses.activate
     def test_all_no_parameters_fail(self):
         for action, api_url in get_api_map.items():
+            print 'testing {action}'.format(action=action),
             # read our expected json output as <action_name>.json
             filepath = os.path.join(self.data_dir, '.'.join([action, 'json']))
             body = open(filepath).read()
@@ -69,3 +72,4 @@ class TestGetApi(object):
 
             # call our action with no arguments
             assert_raises(toolkit.ValidationError, helpers.call_action, action)
+            print '\t[OK]'
