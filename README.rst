@@ -2,7 +2,7 @@
    these badges work. The necessary Travis and Coverage config files have been
    generated for you.
 
-.. image:: https://travis-ci.org/okfn/ckanext-cadastaroles.svg?branch=master
+.. image:: https://travis-ci.org/okfn/ckanext-cadastaroles.png?branch=master
     :target: https://travis-ci.org/okfn/ckanext-cadastaroles
 
 .. image:: https://coveralls.io/repos/okfn/ckanext-cadastaroles/badge.png?branch=master
