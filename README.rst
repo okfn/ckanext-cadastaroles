@@ -2,31 +2,11 @@
    these badges work. The necessary Travis and Coverage config files have been
    generated for you.
 
-.. image:: https://travis-ci.org//ckanext-cadastaroles.svg?branch=master
-    :target: https://travis-ci.org//ckanext-cadastaroles
+.. image:: https://travis-ci.org/okfn/ckanext-cadastaroles.svg?branch=master
+    :target: https://travis-ci.org/okfn/ckanext-cadastaroles
 
-.. image:: https://coveralls.io/repos//ckanext-cadastaroles/badge.png?branch=master
-  :target: https://coveralls.io/r//ckanext-cadastaroles?branch=master
-
-.. image:: https://pypip.in/download/ckanext-cadastaroles/badge.svg
-    :target: https://pypi.python.org/pypi//ckanext-cadastaroles/
-    :alt: Downloads
-
-.. image:: https://pypip.in/version/ckanext-cadastaroles/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-cadastaroles/
-    :alt: Latest Version
-
-.. image:: https://pypip.in/py_versions/ckanext-cadastaroles/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-cadastaroles/
-    :alt: Supported Python versions
-
-.. image:: https://pypip.in/status/ckanext-cadastaroles/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-cadastaroles/
-    :alt: Development Status
-
-.. image:: https://pypip.in/license/ckanext-cadastaroles/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-cadastaroles/
-    :alt: License
+.. image:: https://coveralls.io/repos/okfn/ckanext-cadastaroles/badge.png?branch=master
+  :target: https://coveralls.io/r/okfn/ckanext-cadastaroles?branch=master
 
 =============
 ckanext-cadastaroles
