@@ -36,6 +36,11 @@ ckanext-cadastaroles
    What does it do? What features does it have?
    Consider including some screenshots or embedding a video!
 
+--------------
+Config Options
+--------------
+    ckanext.cadasta.api_url = http://cadasta.api
+    ckanext.cadasta.enforce_permissions = false
 
 ------------
 Requirements
