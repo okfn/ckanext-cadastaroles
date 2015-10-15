@@ -23,7 +23,8 @@ def cadasta_api(endpoint, method='GET', **kwargs):
         result = r.json()
         return result
     except requests.exceptions.RequestException, e:
-        raise toolkit.ValidationError(e)
+        error = 'error connection cadasta api: {0}'.format(e.message)
+        raise toolkit.ValidationError([error])
     except ValueError, e:
         raise toolkit.ValidationError(error_dict={
             'message': 'The response from the cadasta api was not valid JSON',
