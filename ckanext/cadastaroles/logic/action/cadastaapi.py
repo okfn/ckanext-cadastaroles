@@ -32,10 +32,6 @@ post_api_map = {
 }
 
 
-class ActionNotFound(Exception):
-    pass
-
-
 def identity(action):
     @wraps(action)
     def wrapper(context, data_dict):
