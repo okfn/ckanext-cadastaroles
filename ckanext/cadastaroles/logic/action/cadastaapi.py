@@ -1,6 +1,11 @@
 from ckan.plugins import toolkit
-from ckanext.cadastaroles.logic.action.util import cadasta_api
+from ckanext.cadastaroles.logic.action.util import (
+    cadasta_api,
+    cadasta_get_api,
+    cadasta_post_api,
+)
 
+from functools import wraps
 import string
 
 from pylons import config
@@ -21,25 +26,34 @@ get_api_map = {
 }
 
 
+post_api_map = {
+    'cadasta_create_project': '/projects',
+    'cadasta_create_organization': '/organizations',
+}
+
+
 class ActionNotFound(Exception):
     pass
 
 
-def make_get_cadasta_action(action_name):
-    @toolkit.side_effect_free
-    def get_cadasta_api(context, data_dict):
-        try:
-            action = get_api_map[action_name]
-        except KeyError, e:
-            raise ActionNotFound(e.message)
+def identity(action):
+    @wraps(action)
+    def wrapper(context, data_dict):
+        return action(context, data_dict)
+    return wrapper
 
+
+def make_cadasta_action(action, action_endpoint, decorator, cadasta_api_func):
+    @decorator
+    def get_cadasta_api(context, data_dict):
         # we actually always want to call check access
         # development option that should be removed later
         if toolkit.asbool(config.get('ckanext.cadasta.enforce_permissions',
                                      True)):
-            toolkit.check_access(action_name, context, data_dict)
+            toolkit.check_access(action, context, data_dict)
 
-        used_args = [a[1] for a in string.Formatter().parse(action) if a[1]]
+        used_args = [a[1] for a in string.Formatter().parse(action_endpoint)
+                     if a[1]]
 
         cadasta_dict = data_dict.copy()
 
@@ -51,14 +65,25 @@ def make_get_cadasta_action(action_name):
         if error_dict:
             raise toolkit.ValidationError(error_dict)
 
-        endpoint = action.format(**data_dict)
+        endpoint = action_endpoint.format(**data_dict)
 
-        return cadasta_api(endpoint, **cadasta_dict)
+        return cadasta_api_func(endpoint, **cadasta_dict)
     return get_cadasta_api
 
 
 def get_actions():
     actions = {}
-    for action in get_api_map.keys():
-        actions[action] = make_get_cadasta_action(action)
+    for action, action_endpoint in get_api_map.items():
+        actions[action] = make_cadasta_action(action, action_endpoint,
+                                              toolkit.side_effect_free,
+                                              cadasta_get_api)
+    return actions
+
+
+def post_actions():
+    actions = {}
+    for action, action_endpoint in post_api_map.items():
+        actions[action] = make_cadasta_action(action, action_endpoint,
+                                              identity,
+                                              cadasta_post_api)
     return actions
