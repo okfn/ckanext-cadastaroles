@@ -24,7 +24,7 @@ class TestGetApi(object):
 
     @responses.activate
     def test_all_get_actions_success(self):
-        for action, api_url in get_api_map.items():
+        for action, cadasta_endpoint in get_api_map.items():
             print 'testing {action}'.format(action=action),
             # read our expected json output as <action_name>.json
             filepath = os.path.join(self.data_dir, '.'.join([action, 'json']))
@@ -32,6 +32,7 @@ class TestGetApi(object):
             expected = json.loads(body)
 
             # add the expected parameters (everything is a 1)
+            api_url = cadasta_endpoint.url
             url_args = dict([(a[1], 1) for
                              a in string.Formatter().parse(api_url) if a[1]])
 
@@ -50,13 +51,14 @@ class TestGetApi(object):
 
     @responses.activate
     def test_all_no_parameters_fail(self):
-        for action, api_url in get_api_map.items():
+        for action, cadasta_endpoint in get_api_map.items():
             print 'testing {action}'.format(action=action),
             # read our expected json output as <action_name>.json
             filepath = os.path.join(self.data_dir, '.'.join([action, 'json']))
             body = open(filepath).read()
 
             # add the expected parameters (everything is a 1)
+            api_url = cadasta_endpoint.url
             url_args = dict([(a[1], 1) for
                              a in string.Formatter().parse(api_url) if a[1]])
 
@@ -77,6 +79,7 @@ class TestGetApi(object):
             assert_raises(toolkit.ValidationError, helpers.call_action, action)
             print '\t[OK]'
 
+
 class TestPostApi(object):
     def setup(self):
         self.data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -85,7 +88,7 @@ class TestPostApi(object):
 
     @responses.activate
     def test_all_post_actions_success(self):
-        for action, api_url in post_api_map.items():
+        for action, cadasta_endpoint in post_api_map.items():
             print 'testing {action}'.format(action=action),
             # read our expected json output as <action_name>.json
             filepath = os.path.join(self.data_dir, '.'.join([action, 'json']))
@@ -93,6 +96,7 @@ class TestPostApi(object):
             expected = json.loads(body)
 
             # add the expected parameters (everything is a 1)
+            api_url = cadasta_endpoint.url
             url_args = dict([(a[1], 1) for
                              a in string.Formatter().parse(api_url) if a[1]])
 
@@ -111,13 +115,14 @@ class TestPostApi(object):
 
     @responses.activate
     def test_all_no_parameters_fail(self):
-        for action, api_url in post_api_map.items():
+        for action, cadasta_endpoint in post_api_map.items():
             print 'testing {action}'.format(action=action),
             # read our expected json output as <action_name>.json
             filepath = os.path.join(self.data_dir, '.'.join([action, 'json']))
             body = open(filepath).read()
 
             # add the expected parameters (everything is a 1)
+            api_url = cadasta_endpoint.url
             url_args = dict([(a[1], 1) for
                              a in string.Formatter().parse(api_url) if a[1]])
 
