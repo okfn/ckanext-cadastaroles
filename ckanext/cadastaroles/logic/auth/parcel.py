@@ -1,20 +1,35 @@
-from ckan import authz, logic
+from ckan.plugins import toolkit
 
 
 def cadasta_show_parcel(context, data_dict):
     return {'success': True}
-    # user = context.get('user')
 
-    # project_id = data_dict.get('project_id')
-    # if project_id:
-    #     package = logic.auth.get_package_object(context, {'id': project_id})
 
-    #     if package.owner_org:
-    #         can_read_parcels = authz.has_user_permission_for_group_or_org(
-    #             package.owner_org,
-    #             user,
-    #             'read_parcel'
-    #         )
-    #         if can_read_parcels:
-    #             return {'success': True}
-    # return {'success': False}
+def cadasta_get_parcels_list(context, data_dict):
+    return {
+        'success': toolkit.check_access('package_show', context, data_dict)
+    }
+
+
+def cadasta_get_project_parcel(context, data_dict):
+    return {
+        'success': toolkit.check_access('package_show', context, data_dict)
+    }
+
+
+def cadasta_get_project_parcel_detail(context, data_dict):
+    return {
+        'success': toolkit.check_access('package_show', context, data_dict)
+    }
+
+
+def cadasta_get_project_parcel_history(context, data_dict):
+    return {
+        'success': toolkit.check_access('package_show', context, data_dict)
+    }
+
+
+def cadasta_get_project_parcel_relationship_history(context, data_dict):
+    return {
+        'success': toolkit.check_access('package_show', context, data_dict)
+    }

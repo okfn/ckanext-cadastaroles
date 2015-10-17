@@ -38,12 +38,19 @@ class CadastaEndpoint(object):
 
 
 get_api_map = {
-    'cadasta_get_project_overview': CadastaEndpoint('/projects/{id}/overview'),
     'cadasta_get_activity': CadastaEndpoint('/show_activity'),
+    'cadasta_show_parcels_list': CadastaEndpoint('/show_parcels_list'),
+    'cadasta_show_relationships': CadastaEndpoint('/show_relationships'),
+    'cadasta_show_relationships': CadastaEndpoint('/show_relationships/{id}'),
+
+    'cadasta_get_organizations': CadastaEndpoint('/organizations'),
+    'cadasta_get_organization': CadastaEndpoint('/organizations/{id}'),
+
     'cadasta_get_resources': CadastaEndpoint('/resources'),
     'cadasta_get_parcels_list': CadastaEndpoint('/projects/{id}/parcels_list'),
     'cadasta_get_project_parcel': CadastaEndpoint(
         '/projects/{id}/parcels/{parcel_id}'),
+    'cadasta_get_project_overview': CadastaEndpoint('/projects/{id}/overview'),
     'cadasta_get_project_parcel_detail':
         CadastaEndpoint('/projects/{id}/parcels/{parcel_id}/details'),
     'cadasta_get_project_parcel_history':
@@ -76,15 +83,16 @@ def make_cadasta_action(action, cadasta_endpoint, decorator, cadasta_api_func):
                                      True)):
             toolkit.check_access(action, context, data_dict)
 
-        used_args = [a[1] for a in
-                     string.Formatter().parse(cadasta_endpoint.url) if a[1]]
+        string_arguments = [a[1] for a in
+                            string.Formatter().parse(cadasta_endpoint.url)
+                            if a[1]]
 
         cadasta_dict = {}
         for k, v in data_dict.items():
             cadasta_dict[k] = cadasta_endpoint.convert_argument(k, v)
 
         error_dict = {}
-        for arg in used_args:
+        for arg in string_arguments:
             if arg not in data_dict.keys():
                 error_dict[arg] = ['Missing value']
             cadasta_dict.pop(arg, None)

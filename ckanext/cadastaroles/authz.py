@@ -12,67 +12,44 @@ from ckanext.cadastaroles.model import CadastaAdmin
 
 authz.ROLE_PERMISSIONS = OrderedDict([
     ('admin', ['admin']),
-    ('community_admin', ['read',
-                         'delete_dataset',
-                         'create_dataset',
-                         'update_dataset',
-                         # cadasta resources
-                         'upload_project_resource',
-                         'delete_project_resource',
-                         'archive_project_resource',
-                         # surveys
-                         'read_survey',
-                         'create_survey',
-                         'update_survey',
-                         'delete_survey',
-                         # parcel
-                         'read_parcel',
-                         'create_parcel',
-                         'update_parcel',
-                         'delete_parcel',
-                         # parcel resources
-                         'upload_parcel_resource',
-                         'delete_parcel_resource',
-                         'archive_parcel_resource',
-                         # party
-                         'read_party',
-                         'create_party',
-                         'update_party',
-                         'delete_party',
-                         # party resources
-                         'upload_party_resource',
-                         'delete_party_resource',
-                         'archive_party_resource',
-                         # relationship
-                         'read_relationship',
-                         'create_relationship',
-                         'update_relationship',
-                         'delete_relationship',
-                         ]),
-    ('community_user', ['read',
-                        'create_dataset',
-                        'update_dataset',
-                        # cadasta resources
-                        'read_cadasta_resource',
-                        'create_cadasta_resource',
-                        'update_cadasta_resource',
-                        'delete_cadasta_resource',
-
-                        'read_survey',
-
-                        'read_parcel',
-
-                        'read_relationship',
-                        ]),
+    ('editor', ['read',
+                'delete_dataset',
+                'create_dataset',
+                'update_dataset',
+                # cadasta resources
+                'upload_project_resource',
+                'delete_project_resource',
+                'archive_project_resource',
+                # parcel
+                'read_parcel',
+                'create_parcel',
+                'update_parcel',
+                'delete_parcel',
+                'create_parcel_relationship',
+                # parcel resources
+                'upload_parcel_resource',
+                'delete_parcel_resource',
+                'archive_parcel_resource',
+                # party
+                'read_party',
+                'create_party',
+                'update_party',
+                'delete_party',
+                'create_parcel_relationship',
+                # party resources
+                'upload_party_resource',
+                'delete_party_resource',
+                'archive_party_resource',
+                'create_parcel_relationship',
+                # relationship
+                'read_relationship',
+                'create_relationship',
+                'update_relationship',
+                'delete_relationship',
+                ]),
     ('surveyor', ['read',
-
                   # project resource
                   'upload_project_resource',
-
-                  'read_survey',
-                  'create_survey',
-                  'update_survey',
-                  'delete_survey',
 
                   # parcel
                   'read_parcel',
@@ -85,31 +62,15 @@ authz.ROLE_PERMISSIONS = OrderedDict([
                   # parcel resource
                   'read_party_resource',
                   'read_party_resource',
-
-                  'read_relationship',
-                  'create_relationship',
-                  'update_relationship',
-                  'delete_relationship',
-
                   ]),
 ])
 
 
 def _trans_role_surveyor():
-    return toolkit._('Surveyor')
-
-
-def _trans_role_community_admin():
-    return toolkit._('Community Admin')
-
-
-def _trans_role_community_user():
-    return toolkit._('Community User')
+    return toolkit._('ParaSurveyor')
 
 
 authz._trans_role_surveyor = _trans_role_surveyor
-authz._trans_role_community_admin = _trans_role_community_admin
-authz._trans_role_community_user = _trans_role_community_user
 
 
 def is_cadasta_admin_decorator(method):
