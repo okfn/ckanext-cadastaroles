@@ -1,6 +1,5 @@
 from ckan.plugins import toolkit
 from ckanext.cadastaroles.logic.action.util import (
-    cadasta_api,
     cadasta_get_api,
     cadasta_post_api,
 )

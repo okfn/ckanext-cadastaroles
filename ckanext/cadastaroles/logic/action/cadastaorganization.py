@@ -2,7 +2,7 @@ from ckan.logic import validate
 from ckan.plugins import toolkit
 
 from ckanext.cadastaroles.logic import schema
-from ckanext.cadastaroles.logic.action.util import cadasta_api
+from ckanext.cadastaroles.logic.action.util import cadasta_get_api
 
 
 @toolkit.side_effect_free
@@ -30,7 +30,7 @@ def cadasta_get_organization(context, data_dict):
     toolkit.check_access('sysadmin', context, data_dict)
     organization_id = data_dict.get('id')
     if organization_id:
-        return cadasta_api('organizations/{0}'.format(organization_id),
-                           'GET', **data_dict)
+        return cadasta_get_api('organizations/{0}'.format(organization_id),
+                               **data_dict)
     else:
-        return cadasta_api('organizations', 'GET', **data_dict)
+        return cadasta_get_api('organizations', **data_dict)
