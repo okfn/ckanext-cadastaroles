@@ -28,10 +28,7 @@ class CadastaEndpoint(object):
 
     def convert_argument(self, argument_name, value):
         try:
-            converter = self.argument_types[argument_name]
-        except KeyError:
-            converter = str
-        try:
+            converter = self.argument_types.get(argument_name, str)
             return converter(value)
         except ValueError:
             return value
@@ -39,12 +36,11 @@ class CadastaEndpoint(object):
 
 get_api_map = {
     'cadasta_get_activity': CadastaEndpoint('/show_activity'),
-    'cadasta_show_parcels_list': CadastaEndpoint('/show_parcels_list'),
-    'cadasta_show_relationships': CadastaEndpoint('/show_relationships'),
-    'cadasta_show_relationships': CadastaEndpoint('/show_relationships/{id}'),
+    # 'cadasta_show_relationships': CadastaEndpoint('/show_relationships'),
+    # 'cadasta_show_relationships': CadastaEndpoint('/show_relationships/{id}'),
 
-    'cadasta_get_organizations': CadastaEndpoint('/organizations'),
-    'cadasta_get_organization': CadastaEndpoint('/organizations/{id}'),
+    # 'cadasta_get_organizations': CadastaEndpoint('/organizations'),
+    # 'cadasta_get_organization': CadastaEndpoint('/organizations/{id}'),
 
     'cadasta_get_resources': CadastaEndpoint('/resources'),
     'cadasta_get_parcels_list': CadastaEndpoint('/projects/{id}/parcels_list'),
