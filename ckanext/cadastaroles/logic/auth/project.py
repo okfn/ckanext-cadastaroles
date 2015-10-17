@@ -8,32 +8,36 @@ _ = toolkit._
 
 
 def cadasta_create_project(context, data_dict):
-    return toolkit.check_access('package_reate', context, data_dict={
-        'id': data_dict['ckan_id'],
-        'owner_org': data_dict['cadasta_organization_id']
-    })
+    return {
+        'success': toolkit.check_access('package_create', context, data_dict={
+            'id': data_dict['ckan_id'],
+            'owner_org': data_dict['cadasta_organization_id']
+        })
+    }
 
 
 def cadasta_update_project(context, data_dict):
-    return toolkit.check_access('package_update', context, data_dict={
-        'id': data_dict['ckan_id'],
-        'owner_org': data_dict['cadasta_organization_id']
-    })
+    return {
+        'success': toolkit.check_access('package_update', context, data_dict={
+            'id': data_dict['ckan_id'],
+            'owner_org': data_dict['cadasta_organization_id']
+        })
+    }
 
 
 def cadasta_delete_project(context, data_dict):
-    return toolkit.check_access('package_delete', context, data_dict={
-        'id': data_dict['ckan_id'],
-        'owner_org': data_dict['cadasta_organization_id']
-    })
+    return {
+        'success': toolkit.check_access('package_delete', context, data_dict={
+            'id': data_dict['ckan_id'],
+            'owner_org': data_dict['cadasta_organization_id']
+        })
+    }
 
 
 def cadasta_get_project_overview(context, data_dict):
     return {
         'success': toolkit.check_access('package_show', context, data_dict)
     }
-
-
 
 
 def has_permission_for_project(context, data_dict, permission,

@@ -22,7 +22,59 @@ class TestProjectResource(TestProjectBase):
 
 
 class TestProject(TestProjectBase):
+    def test_create_project(self):
+        self.assert_authorization_fails(
+            'cadasta_create_project',
+            [None, 'surveyor'],
+            self.project['id'],
+            'ckan_id',
+            cadasta_organization_id=self.organization['id']
+        )
+
+        self.assert_authorization_passes(
+            'cadasta_create_project',
+            ['admin', 'editor'],
+            self.project['id'],
+            'ckan_id',
+            cadasta_organization_id=self.organization['id']
+        )
+
+    def test_update_project(self):
+        self.assert_authorization_fails(
+            'cadasta_update_project',
+            [None, 'surveyor'],
+            self.project['id'],
+            'ckan_id',
+            cadasta_organization_id=self.organization['id']
+        )
+
+        self.assert_authorization_passes(
+            'cadasta_update_project',
+            ['admin', 'editor'],
+            self.project['id'],
+            'ckan_id',
+            cadasta_organization_id=self.organization['id']
+        )
+
+    def test_delete_project(self):
+        self.assert_authorization_fails(
+            'cadasta_delete_project',
+            [None, 'surveyor'],
+            self.project['id'],
+            'ckan_id',
+            cadasta_organization_id=self.organization['id']
+        )
+
+        self.assert_authorization_passes(
+            'cadasta_delete_project',
+            ['admin', 'editor'],
+            self.project['id'],
+            'ckan_id',
+            cadasta_organization_id=self.organization['id']
+        )
+
     def test_cadasta_get_project_overview(self):
         self.assert_authorization_passes('cadasta_get_project_overview',
                                          [None, 'surveyor', 'admin', 'editor'],
                                          self.project['id'], 'id')
+

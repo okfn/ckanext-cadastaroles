@@ -53,21 +53,24 @@ class TestProjectBase(helpers.FunctionalTestBase):
         }
 
     def assert_authorization_passes(self, auth_function_name, user_roles,
-                                    project_id, project_id_parameter):
+                                    project_id, project_id_parameter,
+                                    **kwargs):
+        kwargs[project_id_parameter] = project_id
         for user_role in user_roles:
             assert_true(helpers.call_auth(
                 auth_function_name,
                 context=self.get_user_context(user_role),
-                **{project_id_parameter: project_id})
+                **kwargs)
             )
 
     def assert_authorization_fails(self, auth_function_name, user_roles,
-                                   project_id, project_id_parameter):
+                                   project_id, project_id_parameter, **kwargs):
+        kwargs[project_id_parameter] = project_id
         for user_role in user_roles:
             assert_raises(
                 toolkit.NotAuthorized,
                 helpers.call_auth,
                 auth_function_name,
                 context=self.get_user_context(user_role),
-                **{project_id_parameter: project_id}
+                **kwargs
             )

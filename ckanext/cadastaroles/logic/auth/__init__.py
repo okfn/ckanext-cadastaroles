@@ -10,6 +10,8 @@ from .relationship import cadasta_show_relationships
 from .project import (
     cadasta_get_project_overview,
     cadasta_create_project,
+    cadasta_update_project,
+    cadasta_delete_project,
     cadasta_upload_project_resource,
     cadasta_delete_project_resource,
 )
