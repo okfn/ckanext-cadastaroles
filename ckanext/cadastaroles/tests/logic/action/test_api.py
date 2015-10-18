@@ -1,7 +1,7 @@
 from ckan.tests import helpers
 from ckan.plugins import toolkit
 
-from ckanext.cadastaroles.logic.action.cadastaapi import (
+from ckanext.cadastaroles.logic.action.api import (
     get_api_map,
     post_api_map,
 )

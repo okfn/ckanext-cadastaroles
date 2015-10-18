@@ -54,7 +54,6 @@ get_api_map = {
         '/projects/{id}/parcels/{parcel_id}/show_relationship_history'),
 }
 
-
 post_api_map = {
     'cadasta_create_project': CadastaEndpoint(
         '/projects', {'cadasta_organization_id': int}),
@@ -71,7 +70,7 @@ def identity(action):
 
 def make_cadasta_action(action, cadasta_endpoint, decorator, cadasta_api_func):
     @decorator
-    def get_cadasta_api(context, data_dict):
+    def cadasta_api_action(context, data_dict):
         # we actually always want to call check access
         # development option that should be removed later
         if toolkit.asbool(config.get('ckanext.cadasta.enforce_permissions',
@@ -97,7 +96,7 @@ def make_cadasta_action(action, cadasta_endpoint, decorator, cadasta_api_func):
         endpoint = cadasta_endpoint.url.format(**data_dict)
 
         return cadasta_api_func(endpoint, **cadasta_dict)
-    return get_cadasta_api
+    return cadasta_api_action
 
 
 def get_actions():
