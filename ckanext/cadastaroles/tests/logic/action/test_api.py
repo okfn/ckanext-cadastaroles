@@ -31,7 +31,7 @@ class TestGetApi(object):
 
     @responses.activate
     def test_all_get_actions_success(self):
-        for action, cadasta_endpoint in get_api_map.items():
+        for i, (action, cadasta_endpoint) in enumerate(get_api_map.items()):
             print 'testing {action}'.format(action=action),
             # read our expected json output as <action_name>.json
             filepath = os.path.join(self.data_dir, '.'.join([action, 'json']))
@@ -50,10 +50,16 @@ class TestGetApi(object):
             responses.add(responses.GET, endpoint,
                           body=body,
                           content_type="application/json")
+            url_args['test_param'] = 'test parameter'
 
             # call our action with the same arguments passed
             result = helpers.call_action(action, **url_args)
             assert_equal(expected, result)
+
+            # check query string is built
+            request = responses.calls[i].request
+            assert_equal(request.url,
+                         ''.join([endpoint, '?test_param=test+parameter']))
             print '\t[OK]'
 
     @responses.activate
@@ -83,7 +89,10 @@ class TestGetApi(object):
                           content_type="application/json")
 
             # call our action with no arguments
-            assert_raises(toolkit.ValidationError, helpers.call_action, action)
+            with assert_raises(toolkit.ValidationError) as cm:
+                helpers.call_action(action)
+            for error in cm.exception.error_dict.values():
+                assert_equal(['Missing value'], error)
             print '\t[OK]'
 
     @responses.activate
@@ -121,7 +130,7 @@ class TestPostApi(object):
 
     @responses.activate
     def test_all_post_actions_success(self):
-        for action, cadasta_endpoint in post_api_map.items():
+        for i, (action, cadasta_endpoint) in enumerate(post_api_map.items()):
             print 'testing {action}'.format(action=action),
             # read our expected json output as <action_name>.json
             filepath = os.path.join(self.data_dir, '.'.join([action, 'json']))
@@ -141,9 +150,14 @@ class TestPostApi(object):
                           body=body,
                           content_type="application/json")
 
+            url_args['test_param'] = 'test parameter'
+
             # call our action with the same arguments passed
             result = helpers.call_action(action, **url_args)
             assert_equal(expected, result)
+
+            request = responses.calls[i].request
+            assert_equal(request.body, 'test_param=test+parameter')
             print '\t[OK]'
 
     @responses.activate
@@ -173,7 +187,10 @@ class TestPostApi(object):
                           content_type="application/json")
 
             # call our action with no arguments
-            assert_raises(toolkit.ValidationError, helpers.call_action, action)
+            with assert_raises(toolkit.ValidationError) as cm:
+                helpers.call_action(action)
+            for error in cm.exception.error_dict.values():
+                assert_equal(['Missing value'], error)
             print '\t[OK]'
 
 
