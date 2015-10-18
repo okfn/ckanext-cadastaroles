@@ -20,6 +20,17 @@ class TestProjectResource(TestProjectBase):
                                          ['admin', 'editor'],
                                          self.project['id'], 'project_id')
 
+    def test_cadasta_upload_resource(self):
+        self.assert_authorization_fails('cadasta_upload_resource',
+                                        [None], self.project['id'],
+                                        'project_id',
+                                        resource_type='project')
+
+        self.assert_authorization_passes('cadasta_upload_resource',
+                                         ['surveyor', 'admin', 'editor'],
+                                         self.project['id'], 'project_id',
+                                         resource_type='project')
+
 
 class TestProject(TestProjectBase):
     def test_create_project(self):

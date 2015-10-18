@@ -14,6 +14,7 @@ from .project import (
     cadasta_delete_project,
     cadasta_upload_project_resource,
     cadasta_delete_project_resource,
+    cadasta_upload_resource,
 )
 from .organization import (
     cadasta_create_organization,
