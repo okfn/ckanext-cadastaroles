@@ -2,6 +2,7 @@ from ckan.plugins import toolkit
 from ckanext.cadastaroles.logic.action.util import (
     cadasta_get_api,
     cadasta_post_api,
+    cadasta_post_files_api,
 )
 
 from functools import wraps
@@ -18,8 +19,9 @@ default_converter_types = {
 
 
 class CadastaEndpoint(object):
-    def __init__(self, url, argument_types=None):
+    def __init__(self, url, argument_types=None, upload_fields=None):
         self.url = url
+        self.upload_fields = upload_fields
         if argument_types is None:
             self.argument_types = default_converter_types
         else:
@@ -31,6 +33,13 @@ class CadastaEndpoint(object):
             return converter(value)
         except ValueError:
             return value
+
+
+def convert_field_storage(value):
+    try:
+        return value.file
+    except AttributeError:
+        raise ValueError('Not a FieldStorage value')
 
 
 get_api_map = {
@@ -60,12 +69,13 @@ post_api_map = {
     'cadasta_create_organization': CadastaEndpoint('/organizations'),
 }
 
-
-def identity(action):
-    @wraps(action)
-    def wrapper(context, data_dict):
-        return action(context, data_dict)
-    return wrapper
+post_files_api_map = {
+    'cadasta_upload_resource': CadastaEndpoint(
+        '/resources/{project_id}/{resource_type}/{resource_type_id}',
+        argument_types={'filedata': convert_field_storage},
+        upload_fields=['filedata']
+    )
+}
 
 
 def make_cadasta_action(action, cadasta_endpoint, decorator, cadasta_api_func):
@@ -95,15 +105,26 @@ def make_cadasta_action(action, cadasta_endpoint, decorator, cadasta_api_func):
 
         endpoint = cadasta_endpoint.url.format(**data_dict)
 
-        return cadasta_api_func(endpoint, **cadasta_dict)
+        return cadasta_api_func(endpoint, cadasta_dict,
+                                cadasta_endpoint.upload_fields)
     return cadasta_api_action
+
+
+def post_request(action):
+    '''empty decorator, actions that are side_effect_free=False are POSTS'''
+    @wraps(action)
+    def wrapper(context, data_dict):
+        return action(context, data_dict)
+    return wrapper
+
+get_request = toolkit.side_effect_free
 
 
 def get_actions():
     actions = {}
     for action, cadasta_endpoint in get_api_map.items():
         actions[action] = make_cadasta_action(action, cadasta_endpoint,
-                                              toolkit.side_effect_free,
+                                              get_request,
                                               cadasta_get_api)
     return actions
 
@@ -112,6 +133,15 @@ def post_actions():
     actions = {}
     for action, cadasta_endpoint in post_api_map.items():
         actions[action] = make_cadasta_action(action, cadasta_endpoint,
-                                              identity,
+                                              post_request,
                                               cadasta_post_api)
+    return actions
+
+
+def post_files_actions():
+    actions = {}
+    for action, cadasta_endpoint in post_files_api_map.items():
+        actions[action] = make_cadasta_action(action, cadasta_endpoint,
+                                              post_request,
+                                              cadasta_post_files_api)
     return actions

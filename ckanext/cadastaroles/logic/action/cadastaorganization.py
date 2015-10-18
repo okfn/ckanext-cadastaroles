@@ -31,6 +31,6 @@ def cadasta_get_organization(context, data_dict):
     organization_id = data_dict.get('id')
     if organization_id:
         return cadasta_get_api('organizations/{0}'.format(organization_id),
-                               **data_dict)
+                               data_dict)
     else:
-        return cadasta_get_api('organizations', **data_dict)
+        return cadasta_get_api('organizations', data_dict)

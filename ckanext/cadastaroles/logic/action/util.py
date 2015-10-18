@@ -1,13 +1,12 @@
 from ckan.plugins import toolkit
 
-from functools import partial
 import urlparse
 
 from pylons import config
 import requests
 
 
-def call_api(endpoint, function, param_name, **kwargs):
+def call_api(endpoint, function, **kwargs):
     try:
         api_url = config['ckanext.cadasta.api_url']
     except KeyError:
@@ -15,10 +14,8 @@ def call_api(endpoint, function, param_name, **kwargs):
             toolkit._('ckanext.cadasta.api_url has not been set')
         )
     try:
-        params = {
-            param_name: kwargs,
-        }
-        r = function(urlparse.urljoin(api_url, endpoint), **params)
+        r = function(urlparse.urljoin(api_url, endpoint), **kwargs)
+        # r = function(urlparse.urljoin(api_url, '/post'), **kwargs)
         result = r.json()
         return result
     except requests.exceptions.RequestException, e:
@@ -30,9 +27,23 @@ def call_api(endpoint, function, param_name, **kwargs):
             'response': r.text,
             'exception': e.message
         })
-    #except (KeyError, IndexError), e:
-    #    raise toolkit.ValidationError(['No parcel_id in response', result])
 
 
-cadasta_get_api = partial(call_api, function=requests.get, param_name='params')
-cadasta_post_api = partial(call_api, function=requests.post, param_name='data')
+def cadasta_get_api(endpoint, params, _=None, **kwargs):
+    return call_api(endpoint, requests.get, params=params, **kwargs)
+
+
+def cadasta_post_api(endpoint, data, _=None, **kwargs):
+    return call_api(endpoint, requests.post, data=data, **kwargs)
+
+
+def cadasta_post_files_api(endpoint, data, upload_field, **kwargs):
+    requests_data = data.copy()
+    files = {}
+    for field_name in upload_field:
+        field = requests_data.pop(field_name, None)
+        if field:
+            files[field_name] = field
+
+    return call_api(endpoint, requests.post, data=requests_data, files=files,
+                    **kwargs)

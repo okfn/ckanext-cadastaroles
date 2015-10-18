@@ -27,6 +27,6 @@ def cadasta_show_relationship(context, data_dict):
         result = cadasta_get_api('relationships/{0}'.format(relationship_id),
                                  **data_dict)
     else:
-        result = cadasta_get_api('relationships', **data_dict)
+        result = cadasta_get_api('relationships', data_dict)
     toolkit.check_access('cadasta_show_relationships', context, data_dict)
     return result
