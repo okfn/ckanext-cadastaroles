@@ -17,6 +17,14 @@ def call_api(endpoint, function, **kwargs):
         r = function(urlparse.urljoin(api_url, endpoint), **kwargs)
         # r = function(urlparse.urljoin(api_url, '/post'), **kwargs)
         result = r.json()
+        error_dict = result.get('error')
+        if error_dict:
+            message = result.get('message', '')
+            error_dict['message'] = message
+            raise toolkit.ValidationError(
+                result['error'],
+                'Error returned from Cadasta API: {0}'.format(message)
+            )
         return result
     except requests.exceptions.RequestException, e:
         error = 'error connection cadasta api: {0}'.format(e.message)

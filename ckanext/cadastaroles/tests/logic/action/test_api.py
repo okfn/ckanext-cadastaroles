@@ -15,7 +15,12 @@ from cStringIO import StringIO
 
 from pylons import config
 import responses
-from nose.tools import assert_equal, assert_raises, assert_in
+from nose.tools import (
+    assert_equal,
+    assert_raises,
+    assert_in,
+    assert_dict_equal,
+)
 
 
 class TestGetApi(object):
@@ -79,6 +84,32 @@ class TestGetApi(object):
 
             # call our action with no arguments
             assert_raises(toolkit.ValidationError, helpers.call_action, action)
+            print '\t[OK]'
+
+    @responses.activate
+    def test_error_from_cadasta_api_raises_validation_error(self):
+        for action, cadasta_endpoint in get_api_map.items():
+            print 'testing {action}'.format(action=action),
+
+            # add the expected parameters (everything is a 1)
+            api_url = cadasta_endpoint.url
+            url_args = dict([(a[1], 1) for
+                             a in string.Formatter().parse(api_url) if a[1]])
+
+            # make sure the point parameters are filled out
+            endpoint = urljoin(self.test_api, api_url).format(**url_args)
+
+            # fake out our response
+            responses.add(responses.GET, endpoint,
+                          body='{"error": {"code": 1}, "message": "err msg"}',
+                          content_type="application/json")
+
+            with assert_raises(toolkit.ValidationError) as cm:
+                helpers.call_action(action, **url_args)
+
+            assert_dict_equal({'message': u'err msg', u'code': 1},
+                              cm.exception.error_dict)
+
             print '\t[OK]'
 
 
