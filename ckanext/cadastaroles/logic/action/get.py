@@ -13,10 +13,13 @@ def user_role_show(context, data_dict):
     user_id = data_dict['user_id']
     organization_id = data_dict['organization_id']
 
+    user = model.User.get(user_id)
+    organization = model.Group.get(organization_id)
+
     member = session.query(model.Member)\
         .filter(model.Member.table_name == 'user')\
-        .filter(model.Member.table_id == user_id)\
-        .filter(model.Member.group_id == organization_id)\
+        .filter(model.Member.table_id == user.id)\
+        .filter(model.Member.group_id == organization.id)\
         .filter(model.Member.state == 'active').first()
     if member:
         member_dict = member_dictize(member, context)

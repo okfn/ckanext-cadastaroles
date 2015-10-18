@@ -6,12 +6,12 @@ from ckan import model
 from nose.tools import assert_equal, assert_is_none, assert_raises
 
 
-class TestCadastaCreateProject(object):
+class TestCadastaUserRoleShow(object):
     def teardown(self):
         helpers.reset_db()
         search.clear_all()
 
-    def test_create(self):
+    def test_user_role_show(self):
         user = factories.User()
         organization = factories.Organization(id='1',
                                               users=[{'name': user['name'],
@@ -27,6 +27,28 @@ class TestCadastaCreateProject(object):
             context=context,
             user_id=user['id'],
             organization_id=organization['id'],
+        )
+
+        assert_equal('surveyor', result['role'])
+        assert_equal(organization['id'], result['organization_id'])
+        assert_equal(user['id'], result['user_id'])
+
+    def test_user_role_show_by_name(self):
+        user = factories.User()
+        organization = factories.Organization(id='1',
+                                              users=[{'name': user['name'],
+                                                      'capacity': 'surveyor'}])
+
+        context = {
+            'model': model,
+            'session': model.Session,
+            'user': user['name']
+        }
+        result = helpers.call_action(
+            'user_role_show',
+            context=context,
+            user_id=user['name'],
+            organization_id=organization['name'],
         )
 
         assert_equal('surveyor', result['role'])
