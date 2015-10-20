@@ -6,7 +6,7 @@ from pylons import config
 import requests
 
 
-def cadasta_api(endpoint, method='GET', **kwargs):
+def call_api(endpoint, function, **kwargs):
     try:
         api_url = config['ckanext.cadasta.api_url']
     except KeyError:
@@ -14,13 +14,17 @@ def cadasta_api(endpoint, method='GET', **kwargs):
             toolkit._('ckanext.cadasta.api_url has not been set')
         )
     try:
-        if method == 'GET':
-            r = requests.request(method, urlparse.urljoin(api_url, endpoint),
-                                params=kwargs)
-        elif method == 'POST':
-            r = requests.request(method, urlparse.urljoin(api_url, endpoint),
-                                data=kwargs)
+        r = function(urlparse.urljoin(api_url, endpoint), **kwargs)
+        # r = function(urlparse.urljoin(api_url, '/post'), **kwargs)
         result = r.json()
+        error_dict = result.get('error')
+        if error_dict:
+            message = result.get('message', '')
+            error_dict['message'] = message
+            raise toolkit.ValidationError(
+                error_dict,
+                'Error returned from Cadasta API: {0}'.format(message)
+            )
         return result
     except requests.exceptions.RequestException, e:
         error = 'error connection cadasta api: {0}'.format(e.message)
@@ -31,5 +35,23 @@ def cadasta_api(endpoint, method='GET', **kwargs):
             'response': r.text,
             'exception': e.message
         })
-    except (KeyError, IndexError), e:
-        raise toolkit.ValidationError('No parcel_id in response', result)
+
+
+def cadasta_get_api(endpoint, params, _=None, **kwargs):
+    return call_api(endpoint, requests.get, params=params, **kwargs)
+
+
+def cadasta_post_api(endpoint, data, _=None, **kwargs):
+    return call_api(endpoint, requests.post, data=data, **kwargs)
+
+
+def cadasta_post_files_api(endpoint, data, upload_field, **kwargs):
+    requests_data = data.copy()
+    files = {}
+    for field_name in upload_field:
+        field = requests_data.pop(field_name, None)
+        if field:
+            files[field_name] = field
+
+    return call_api(endpoint, requests.post, data=requests_data, files=files,
+                    **kwargs)

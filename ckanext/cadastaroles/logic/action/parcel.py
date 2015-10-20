@@ -2,7 +2,7 @@ from ckan.logic import validate
 from ckan.plugins import toolkit
 
 from ckanext.cadastaroles.logic import schema
-from ckanext.cadastaroles.logic.action.util import cadasta_api
+from ckanext.cadastaroles.logic.action.util import cadasta_get_api
 
 
 @toolkit.side_effect_free
@@ -35,9 +35,9 @@ def cadasta_show_parcel(context, data_dict):
     parcel_id = data_dict.get('id')
     if parcel_id:
         data_dict.pop('id', '')
-        result = cadasta_api('parcels/{0}'.format(parcel_id), **data_dict)
+        result = cadasta_get_api('parcels/{0}'.format(parcel_id), data_dict)
     else:
-        result = cadasta_api('parcels', **data_dict)
+        result = cadasta_get_api('parcels', data_dict)
     toolkit.check_access('cadasta_show_parcel', context, data_dict)
     return result
 
@@ -55,7 +55,7 @@ def cadasta_show_parcel_detail(context, data_dict):
     parcel_id = data_dict.get('id')
     toolkit.check_access('cadasta_show_parcel', context, data_dict)
     data_dict.pop('id', '')
-    return cadasta_api('parcels/{0}/details'.format(parcel_id), **data_dict)
+    return cadasta_get_api('parcels/{0}/details'.format(parcel_id), data_dict)
 
 
 @toolkit.side_effect_free
@@ -80,8 +80,8 @@ def cadasta_show_parcel_relationship_history(context, data_dict):
     parcel_id = data_dict.get('id')
     toolkit.check_access('cadasta_show_parcel', context, data_dict)
     data_dict.pop('id', '')
-    return cadasta_api(
-        'parcels/{0}/show_relationship_history'.format(parcel_id), **data_dict)
+    return cadasta_get_api(
+        'parcels/{0}/show_relationship_history'.format(parcel_id), data_dict)
 
 
 @toolkit.side_effect_free
@@ -106,5 +106,5 @@ def cadasta_show_parcel_resource(context, data_dict):
     parcel_id = data_dict['id']
     toolkit.check_access('cadasta_show_parcel', context, data_dict)
     data_dict.pop('id', '')
-    return cadasta_api(
-        'parcels/{0}/resources'.format(parcel_id), **data_dict)
+    return cadasta_get_api(
+        'parcels/{0}/resources'.format(parcel_id), data_dict)

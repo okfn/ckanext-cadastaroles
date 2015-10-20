@@ -3,7 +3,9 @@ from ckan.config.routing import SubMapper
 from ckan.plugins import toolkit
 from ckanext.cadastaroles.logic import action, auth
 from ckanext.cadastaroles import model
-from ckanext.cadastaroles.logic.action.cadastaapi import get_actions
+from ckanext.cadastaroles.logic.action.api import (
+    get_actions, post_actions, post_files_actions
+)
 
 
 class CadastarolesPlugin(plugins.SingletonPlugin):
@@ -17,9 +19,11 @@ class CadastarolesPlugin(plugins.SingletonPlugin):
     # IActions
     def get_actions(self):
         actions = dict((name, function) for name, function
-                    in action.__dict__.items()
-                    if callable(function))
+                       in action.__dict__.items()
+                       if callable(function))
         actions.update(get_actions())
+        actions.update(post_actions())
+        actions.update(post_files_actions())
         return actions
 
     # IAuthFunctions

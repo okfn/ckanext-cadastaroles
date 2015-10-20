@@ -5,28 +5,6 @@ from ckan.lib import search
 from ckan.plugins import toolkit
 
 
-class TestCadastaCreateOrganization(object):
-    def teardown(self):
-        helpers.reset_db()
-        search.clear_all()
-
-    @responses.activate
-    def test_create(self):
-        responses.add(responses.POST, 'http://cadasta.api/organizations',
-                      body='{"cadasta_organization_id": 1}',
-                      content_type="application/json")
-        organization = factories.Organization(id='1')
-
-        result = helpers.call_action(
-            'cadasta_create_organization',
-            ckan_id=organization['id'],
-            ckan_title=organization['title'],
-            ckan_description=organization['description'],
-        )
-
-        assert_equal({u'cadasta_organization_id': 1}, result)
-
-
 class TestCadastaGetOrganization(object):
     def teardown(self):
         helpers.reset_db()

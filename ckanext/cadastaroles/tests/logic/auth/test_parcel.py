@@ -4,6 +4,8 @@ from ckan.lib import search
 from ckan.plugins import toolkit
 from nose.tools import assert_raises
 
+from .base import TestProjectBase
+
 
 class TestCadastaParcel(object):
     def teardown(self):
@@ -38,4 +40,34 @@ class TestCadastaParcel(object):
             'cadasta_show_parcel',
             context=context,
             id=1,
+        )
+
+
+class TestProjectParcel(TestProjectBase):
+    def test_cadasta_get_project_parcel_list(self):
+        self.assert_authorization_passes('cadasta_get_parcels_list',
+                                         [None, 'surveyor', 'admin', 'editor'],
+                                         self.project['id'], 'id')
+
+    def test_cadasta_get_project_parcel(self):
+        self.assert_authorization_passes('cadasta_get_project_parcel',
+                                         [None, 'surveyor', 'admin', 'editor'],
+                                         self.project['id'], 'id')
+
+    def test_cadasta_get_project_parcel_detail(self):
+        self.assert_authorization_passes('cadasta_get_project_parcel_detail',
+                                         [None, 'surveyor', 'admin', 'editor'],
+                                         self.project['id'], 'id')
+
+    def test_cadasta_get_project_parcel_history(self):
+        self.assert_authorization_passes('cadasta_get_project_parcel_history',
+                                         [None, 'surveyor', 'admin', 'editor'],
+                                         self.project['id'], 'id')
+
+    def test_cadasta_get_project_parcel_relationship_history(self):
+        self.assert_authorization_passes(
+            'cadasta_get_project_parcel_relationship_history',
+            [None, 'surveyor', 'admin', 'editor'],
+            self.project['id'],
+            'id'
         )

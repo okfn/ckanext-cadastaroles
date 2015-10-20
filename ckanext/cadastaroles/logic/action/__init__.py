@@ -10,7 +10,6 @@ from .cadastaadmin import (
 )
 
 from .cadastaorganization import (
-    cadasta_create_organization,
     cadasta_get_organization,
 )
 
@@ -19,10 +18,6 @@ from .parcel import (
     cadasta_show_parcel_detail,
     cadasta_show_parcel_relationship_history,
     cadasta_show_parcel_resource,
-)
-
-from .project import (
-    cadasta_create_project
 )
 
 from .relationships import (
